@@ -42,9 +42,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $exe = Get-ChildItem 'Installer\Output\*.exe' | Select-Object -First 1
-          gh release view v1.0.0 2>$null
-          if ($LASTEXITCODE -ne 0) {
-            gh release create v1.0.0 $exe.FullName --title "Auto Pecas Concorrente ERP 1.0.0" --notes "Instalador Windows x64 do Auto Pecas Concorrente ERP."
-          } else {
-            gh release upload v1.0.0 $exe.FullName --clobber
-          }
+          gh release create v1.0.0 $exe.FullName --title "Auto Pecas Concorrente ERP 1.0.0" --notes "Instalador Windows x64 do Auto Pecas Concorrente ERP."
