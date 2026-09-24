@@ -1,0 +1,11 @@
+# Bloqueadores antes de comercializar
+- Compilar todo o solution no Windows/.NET 8 e corrigir erros apontados pelo compilador/XAML.
+- Substituir armazenamento direto da senha do certificado A1 por DPAPI/Credential Manager.
+- Implementar provider fiscal real e homologar NF-e/NFC-e por UF/regime tributário.
+- Implementar validação completa de CPF/CNPJ e regras fiscais reais.
+- Gerar migrations EF Core reais e testar upgrades entre versões.
+- Testar concorrência/locking do SQLite; para operação multiestação migrar para PostgreSQL/SQL Server.
+- Implementar restauração externa segura com ERP fechado.
+- Assinar digitalmente executável/instalador para distribuição comercial.
+- Testes automatizados e de regressão para estoque, financeiro e fiscal.
+- Revisão LGPD: retenção, logs, acesso, backup e exportação de dados.
