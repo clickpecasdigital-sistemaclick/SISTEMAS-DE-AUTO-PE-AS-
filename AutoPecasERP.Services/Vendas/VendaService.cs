@@ -2,7 +2,7 @@ using AutoPecasERP.Core.Entities; using AutoPecasERP.Data.Context; using Microso
 namespace AutoPecasERP.Services.Vendas;
 public record ItemVendaInput(int ProdutoId, decimal Quantidade, decimal ValorUnitario, decimal Desconto);
 public class VendaService {
- readonly ErpDbContext _db; public VendaService(ErpDbContext db)=>_db=db;
+ readonly ErpDbContext _db; public VendaService(ErpDbContext db)=>_db=db; private async Task<string> ProximoNumeroAsync(){var n=await _db.Vendas.CountAsync()+1;return "VD-"+DateTime.Now.ToString("yyyyMMdd")+"-"+n.ToString("000000");}
  public async Task<Venda> FinalizarAsync(int? clienteId,int usuarioId,string vendedor,string pagamento,decimal desconto,IEnumerable<ItemVendaInput> entradas){
   var itens=entradas.Where(x=>x.Quantidade>0).ToList(); if(itens.Count==0) throw new InvalidOperationException("Inclua ao menos um produto.");
   await using var tx=await _db.Database.BeginTransactionAsync();
