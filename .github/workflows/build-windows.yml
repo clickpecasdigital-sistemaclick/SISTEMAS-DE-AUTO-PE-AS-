@@ -16,9 +16,21 @@ jobs:
       - name: Build Release
         run: dotnet build AutoPecasConcorrenteERP.sln -c Release --no-restore
       - name: Publish Windows x64
-        run: dotnet publish src/AutoPecasERP.Desktop/AutoPecasERP.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/win-x64
-      - name: Upload ERP
+        run: dotnet publish AutoPecasERP.Desktop/AutoPecasERP.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/win-x64
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+      - name: Build installer
+        shell: powershell
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          & $iscc 'Installer\AutoPecasERP.iss'
+      - name: Upload ERP portable
         uses: actions/upload-artifact@v4
         with:
           name: AutoPecasConcorrenteERP-win-x64
           path: publish/win-x64/**
+      - name: Upload Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: AUTO-PECAS-CONCORRENTE-ERP-SETUP
+          path: Installer/Output/*.exe
