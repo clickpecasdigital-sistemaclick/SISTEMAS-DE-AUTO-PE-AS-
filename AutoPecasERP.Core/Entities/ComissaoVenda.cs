@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Entities; public class ComissaoVenda{public int Id{get;set;}public int VendaId{get;set;}public Venda? Venda{get;set;}public string Vendedor{get;set;}="" ;public decimal BaseCalculo{get;set;}public decimal Percentual{get;set;}public decimal Valor{get;set;}public string Status{get;set;}="PENDENTE";}

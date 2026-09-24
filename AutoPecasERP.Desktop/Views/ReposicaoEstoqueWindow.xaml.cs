@@ -1,0 +1,6 @@
+using System.Windows;using AutoPecasERP.Core.Models;using AutoPecasERP.Data.Context;using AutoPecasERP.Services.Compras;
+namespace AutoPecasERP.Desktop.Views;
+public partial class ReposicaoEstoqueWindow:Window{readonly ErpDbContext _db=new();List<ReposicaoView> _todos=new();public ReposicaoEstoqueWindow(){InitializeComponent();Loaded+=async(_,__)=>await Atualizar();}
+async Task Atualizar(){_todos=await new ReposicaoService(_db).SugestoesAsync();Aplicar();}
+void Aplicar(){IEnumerable<ReposicaoView> q=_todos;var b=BuscaBox.Text.Trim();if(b.Length>0)q=q.Where(x=>x.Codigo.Contains(b,StringComparison.OrdinalIgnoreCase)||x.Produto.Contains(b,StringComparison.OrdinalIgnoreCase));var l=q.ToList();Grid.ItemsSource=l;ResumoTxt.Text=$"{l.Count} produtos • compra estimada {l.Sum(x=>x.ValorEstimado):C}";}
+void Busca_Changed(object s,System.Windows.Controls.TextChangedEventArgs e){if(IsLoaded)Aplicar();}async void Atualizar_Click(object s,RoutedEventArgs e)=>await Atualizar();void Compras_Click(object s,RoutedEventArgs e)=>new ComprasWindow{Owner=this}.ShowDialog();}

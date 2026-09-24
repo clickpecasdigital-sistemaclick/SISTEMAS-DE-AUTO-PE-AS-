@@ -1,0 +1,10 @@
+using AutoPecasERP.Data.Context;using Microsoft.EntityFrameworkCore;
+namespace AutoPecasERP.Services.Relatorios;
+public record DashboardDto(decimal FaturamentoHoje,decimal VendasMes,decimal TicketMedio,int ClientesAtivos,int Produtos,int EstoqueBaixo,decimal ContasReceber,decimal VendasPerdidas,int OsAbertas);
+public record RankingDto(string Nome,decimal Valor);
+public class RelatorioService{readonly ErpDbContext _db;public RelatorioService(ErpDbContext db)=>_db=db;
+public async Task<DashboardDto> DashboardAsync(){var hoje=DateTime.Today;var inicioMes=new DateTime(hoje.Year,hoje.Month,1);var vendasHoje=await _db.Vendas.Where(x=>x.Status=="CONCLUIDA"&&x.Data>=hoje&&x.Data<hoje.AddDays(1)).ToListAsync();var vendasMes=await _db.Vendas.Where(x=>x.Status=="CONCLUIDA"&&x.Data>=inicioMes).ToListAsync();var totalMes=vendasMes.Sum(x=>x.Total);return new(vendasHoje.Sum(x=>x.Total),totalMes,vendasMes.Count==0?0:totalMes/vendasMes.Count,await _db.Clientes.CountAsync(x=>x.Ativo),await _db.Produtos.CountAsync(x=>x.Ativo),await _db.Produtos.CountAsync(x=>x.Ativo&&x.EstoqueAtual<=x.EstoqueMinimo),await _db.ContasReceber.Where(x=>x.Status!="PAGO").SumAsync(x=>(decimal?)x.Valor)??0,await _db.VendasPerdidas.SumAsync(x=>(decimal?)x.ValorEstimado)??0,await _db.OrdensServico.CountAsync(x=>x.Status!="FINALIZADA"));}
+public async Task<List<RankingDto>> TopClientesAsync(int top=10)=>await _db.Vendas.Where(x=>x.ClienteId!=null&&x.Status=="CONCLUIDA").GroupBy(x=>x.Cliente!.Nome).Select(g=>new RankingDto(g.Key,g.Sum(x=>x.Total))).OrderByDescending(x=>x.Valor).Take(top).ToListAsync();
+public async Task<List<RankingDto>> TopProdutosAsync(int top=10)=>await _db.ItensVenda.GroupBy(x=>x.Descricao).Select(g=>new RankingDto(g.Key,g.Sum(x=>x.Quantidade))).OrderByDescending(x=>x.Valor).Take(top).ToListAsync();
+public async Task<List<RankingDto>> VendasPorDiaAsync(int dias=30){var ini=DateTime.Today.AddDays(-(dias-1));var raw=await _db.Vendas.Where(x=>x.Status=="CONCLUIDA"&&x.Data>=ini).Select(x=>new{x.Data,x.Total}).ToListAsync();return raw.GroupBy(x=>x.Data.Date).OrderBy(x=>x.Key).Select(g=>new RankingDto(g.Key.ToString("dd/MM"),g.Sum(x=>x.Total))).ToList();}
+}

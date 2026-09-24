@@ -1,0 +1,3 @@
+using System.Windows;using AutoPecasERP.Core.Entities;using AutoPecasERP.Data.Context;
+namespace AutoPecasERP.Desktop.Views;
+public partial class NovoVeiculoWindow:Window{readonly int _clienteId;readonly ErpDbContext _db=new();public NovoVeiculoWindow(int clienteId){InitializeComponent();_clienteId=clienteId;}async void Salvar_Click(object s,RoutedEventArgs e){if(string.IsNullOrWhiteSpace(Marca.Text)||string.IsNullOrWhiteSpace(Modelo.Text)){MessageBox.Show("Informe marca e modelo.");return;}_db.VeiculosCliente.Add(new VeiculoCliente{ClienteId=_clienteId,Marca=Marca.Text,Modelo=Modelo.Text,Ano=Ano.Text,Motor=Motor.Text,Placa=Placa.Text.Trim().ToUpperInvariant()});await _db.SaveChangesAsync();DialogResult=true;}}

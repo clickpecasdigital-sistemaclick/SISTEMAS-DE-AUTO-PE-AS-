@@ -1,0 +1,11 @@
+using AutoPecasERP.Core.Entities;using AutoPecasERP.Data.Context;using Microsoft.EntityFrameworkCore;using Microsoft.Data.Sqlite;
+namespace AutoPecasERP.Services.Atualizacao;
+public class DatabaseUpgradeService{
+readonly ErpDbContext _db;public const int VersaoAtual=1;public DatabaseUpgradeService(ErpDbContext db)=>_db=db;
+public async Task InicializarAsync(){await _db.Database.EnsureCreatedAsync();await GarantirTabelaVersaoAsync();var atual=await LerVersaoAsync();if(atual>VersaoAtual)throw new InvalidOperationException($"Banco versão {atual} é mais novo que o aplicativo ({VersaoAtual}). Atualize o ERP.");if(atual<VersaoAtual){await BackupPreUpgradeAsync(atual);await AplicarAsync(atual,VersaoAtual);}await SeedSeguroAsync();}
+async Task GarantirTabelaVersaoAsync()=>await _db.Database.ExecuteSqlRawAsync("""CREATE TABLE IF NOT EXISTS "VersoesBanco" ("Id" INTEGER NOT NULL CONSTRAINT "PK_VersoesBanco" PRIMARY KEY AUTOINCREMENT,"Versao" INTEGER NOT NULL,"Nome" TEXT NOT NULL,"AplicadaEm" TEXT NOT NULL,"AplicadaPor" TEXT NOT NULL);""");
+async Task<int> LerVersaoAsync()=>await _db.VersoesBanco.OrderByDescending(x=>x.Versao).Select(x=>(int?)x.Versao).FirstOrDefaultAsync()??0;
+async Task BackupPreUpgradeAsync(int de){var c=(SqliteConnection)_db.Database.GetDbConnection();if(c.State!=System.Data.ConnectionState.Open)await c.OpenAsync();var pasta=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"AutoPecasERP","Backups","PreUpgrade");Directory.CreateDirectory(pasta);var arq=Path.Combine(pasta,$"PreUpgrade_v{de}_{DateTime.Now:yyyyMMdd_HHmmss}.db");await using var target=new SqliteConnection($"Data Source={arq}");await target.OpenAsync();c.BackupDatabase(target);}
+async Task AplicarAsync(int de,int ate){for(var v=de+1;v<=ate;v++){await using var tx=await _db.Database.BeginTransactionAsync();switch(v){case 1:break;default:throw new InvalidOperationException($"Migração {v} não implementada.");}_db.VersoesBanco.Add(new VersaoBanco{Versao=v,Nome=$"Schema v{v}"});await _db.SaveChangesAsync();await tx.CommitAsync();}}
+async Task SeedSeguroAsync(){if(!await _db.Usuarios.AnyAsync()){_db.Usuarios.Add(new Usuario{Nome="Administrador",Login="ADMIN",SenhaHash=BCrypt.Net.BCrypt.HashPassword("Admin@123"),Perfil=PerfilUsuario.Administrador,Ativo=true,SenhaTemporaria=true});await _db.SaveChangesAsync();}}
+}

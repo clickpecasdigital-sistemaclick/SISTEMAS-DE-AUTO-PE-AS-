@@ -1,0 +1,5 @@
+using System.Windows;using AutoPecasERP.Data.Context;using AutoPecasERP.Services.Fiscal;
+namespace AutoPecasERP.Desktop.Views;
+public partial class FiscalVendaWindow:Window{readonly int _vendaId;public FiscalVendaWindow(int vendaId){InitializeComponent();_vendaId=vendaId;}
+async Task Preparar(string modelo){try{using var db=new ErpDbContext();var svc=new FiscalService(db,new ProviderNaoConfigurado());var n=await svc.PrepararAsync(_vendaId,modelo);MessageBox.Show($"{(modelo=="65"?"NFC-e":"NF-e")} nº {n.Numero} preparada em {n.Ambiente}.\nNenhuma transmissão foi simulada: configure o provedor SEFAZ para emitir.");Close();}catch(Exception ex){MessageBox.Show(ex.Message,"Fiscal",MessageBoxButton.OK,MessageBoxImage.Warning);}}
+async void Nfce_Click(object s,RoutedEventArgs e)=>await Preparar("65");async void Nfe_Click(object s,RoutedEventArgs e)=>await Preparar("55");async void Somente_Click(object s,RoutedEventArgs e){using var db=new ErpDbContext();var v=await db.Vendas.FindAsync(_vendaId);if(v!=null){v.StatusFiscal="SEM_DOCUMENTO";await db.SaveChangesAsync();}Close();}}

@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Entities; public class ItemCotacaoCompra{public int Id{get;set;}public int CotacaoCompraId{get;set;}public CotacaoCompra? CotacaoCompra{get;set;}public int ProdutoId{get;set;}public Produto? Produto{get;set;}public decimal Quantidade{get;set;}public List<OfertaFornecedor> Ofertas{get;set;}=new();}

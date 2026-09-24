@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class ItemOrdemServico{public int Id{get;set;}public int OrdemServicoId{get;set;}public OrdemServico? OrdemServico{get;set;}public string Tipo{get;set;}="SERVICO";public int? ProdutoId{get;set;}public Produto? Produto{get;set;}public string Descricao{get;set;}="";public decimal Quantidade{get;set;}=1;public decimal ValorUnitario{get;set;}public decimal Total{get;set;}}

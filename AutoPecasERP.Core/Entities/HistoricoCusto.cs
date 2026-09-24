@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class HistoricoCusto{public int Id{get;set;}public int ProdutoId{get;set;}public Produto? Produto{get;set;}public int? FornecedorId{get;set;}public Fornecedor? Fornecedor{get;set;}public decimal CustoAnterior{get;set;}public decimal CustoNovo{get;set;}public DateTime Data{get;set;}=DateTime.Now;public string Documento{get;set;}="";}

@@ -1,0 +1,4 @@
+using AutoPecasERP.Core.Entities;
+namespace AutoPecasERP.Services.Fiscal;
+public record FiscalResult(bool Sucesso,string Status,string Chave,string Protocolo,string Xml,string Mensagem);
+public interface IFiscalProvider{Task<FiscalResult> EmitirAsync(NotaFiscal nota,ConfiguracaoFiscal cfg,CancellationToken ct=default);Task<FiscalResult> ConsultarAsync(NotaFiscal nota,ConfiguracaoFiscal cfg,CancellationToken ct=default);Task<FiscalResult> CancelarAsync(NotaFiscal nota,ConfiguracaoFiscal cfg,string justificativa,CancellationToken ct=default);Task<FiscalResult> CartaCorrecaoAsync(NotaFiscal nota,ConfiguracaoFiscal cfg,string correcao,CancellationToken ct=default);}

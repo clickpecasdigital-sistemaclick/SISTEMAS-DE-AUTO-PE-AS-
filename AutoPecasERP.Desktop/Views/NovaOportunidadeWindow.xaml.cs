@@ -1,0 +1,5 @@
+using System.Globalization;using System.Windows;using AutoPecasERP.Core.Entities;using AutoPecasERP.Data.Context;using AutoPecasERP.Services.CRM;using Microsoft.EntityFrameworkCore;
+namespace AutoPecasERP.Desktop.Views;
+public partial class NovaOportunidadeWindow:Window{readonly ErpDbContext _db=new();readonly Usuario _u;public NovaOportunidadeWindow(Usuario u){InitializeComponent();_u=u;Loaded+=async(_,__)=>ClienteBox.ItemsSource=await _db.Clientes.Where(x=>x.Ativo).OrderBy(x=>x.Nome).ToListAsync();}
+void Cliente_Changed(object s,System.Windows.Controls.SelectionChangedEventArgs e){if(ClienteBox.SelectedItem is Cliente c){ContatoBox.Text=c.Nome;TelefoneBox.Text=c.Telefone;}}
+async void Salvar_Click(object s,RoutedEventArgs e){if(string.IsNullOrWhiteSpace(ContatoBox.Text)){MessageBox.Show("Informe o contato.");return;}decimal.TryParse(ValorBox.Text,NumberStyles.Number,CultureInfo.GetCultureInfo("pt-BR"),out var valor);var c=ClienteBox.SelectedItem as Cliente;await new CrmService(_db).CriarAsync(c?.Id,ContatoBox.Text,TelefoneBox.Text,AssuntoBox.Text,valor,_u.Nome);DialogResult=true;}}

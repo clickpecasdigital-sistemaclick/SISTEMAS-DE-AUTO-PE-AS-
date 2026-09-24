@@ -1,0 +1,6 @@
+namespace AutoPecasERP.Core.Entities;
+public class ContaReceber {
+ public int Id {get;set;} public int? VendaId {get;set;} public Venda? Venda {get;set;} public int? ClienteId {get;set;}
+ public string Descricao {get;set;}=""; public DateTime Emissao {get;set;}=DateTime.Now; public DateTime Vencimento {get;set;}=DateTime.Today;
+ public decimal Valor {get;set;} public string FormaPagamento {get;set;}=""; public string Status {get;set;}="ABERTO";
+}

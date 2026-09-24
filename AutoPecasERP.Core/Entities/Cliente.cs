@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class Cliente { public int Id {get;set;} public string Nome {get;set;}=""; public string? RazaoSocial {get;set;} public string? CpfCnpj {get;set;} public string? Ie {get;set;} public string? Telefone {get;set;} public string? WhatsApp {get;set;} public string? Endereco {get;set;} public string? Cidade {get;set;} public string? Estado {get;set;} public decimal LimiteCredito {get;set;} public string? Observacoes {get;set;} public bool Ativo {get;set;}=true; }

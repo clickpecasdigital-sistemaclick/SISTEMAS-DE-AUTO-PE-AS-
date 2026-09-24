@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class MovimentoCaixa{public int Id{get;set;}public int CaixaId{get;set;}public Caixa? Caixa{get;set;}public DateTime Data{get;set;}=DateTime.Now;public string Tipo{get;set;}="";public string Origem{get;set;}="";public int? OrigemId{get;set;}public string FormaPagamento{get;set;}="";public decimal Valor{get;set;}public string Historico{get;set;}="";public string Usuario{get;set;}="";}

@@ -1,0 +1,8 @@
+using System.Windows;using AutoPecasERP.Core.Entities;using AutoPecasERP.Data.Context;using AutoPecasERP.Services.Oficina;using Microsoft.EntityFrameworkCore;
+namespace AutoPecasERP.Desktop.Views;
+public partial class OficinaWindow:Window{readonly Usuario _u;readonly ErpDbContext _db=new();public OficinaWindow(Usuario u){InitializeComponent();_u=u;Loaded+=async(_,__)=>await Atualizar();}async Task Atualizar()=>Grid.ItemsSource=await _db.OrdensServico.Include(x=>x.Cliente).OrderByDescending(x=>x.Id).ToListAsync();
+async void Nova_Click(object s,RoutedEventArgs e){var d=new NovaOsWindow(_u){Owner=this};if(d.ShowDialog()==true)await Atualizar();}
+async void Editar_Click(object s,RoutedEventArgs e){if(Grid.SelectedItem is not OrdemServico os){MessageBox.Show("Selecione uma OS.");return;}new EditarOsWindow(os.Id,_u){Owner=this}.ShowDialog();await Atualizar();}
+async Task Status(string status){if(Grid.SelectedItem is OrdemServico os){os.Status=status;await _db.SaveChangesAsync();await Atualizar();}}
+async void Aguardando_Click(object s,RoutedEventArgs e)=>await Status("AGUARDANDO_PECA");async void Execucao_Click(object s,RoutedEventArgs e)=>await Status("EM_EXECUCAO");
+async void Finalizar_Click(object s,RoutedEventArgs e){if(Grid.SelectedItem is not OrdemServico os)return;try{await new OficinaService(_db).FinalizarAsync(os.Id,_u.Nome);MessageBox.Show("OS finalizada. Estoque e financeiro processados.");await Atualizar();}catch(Exception ex){MessageBox.Show(ex.Message);}}}

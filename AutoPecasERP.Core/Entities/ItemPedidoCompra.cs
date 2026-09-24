@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class ItemPedidoCompra { public int Id {get;set;} public int PedidoCompraId {get;set;} public PedidoCompra? PedidoCompra {get;set;} public int ProdutoId {get;set;} public Produto? Produto {get;set;} public decimal Quantidade {get;set;} public decimal QuantidadeRecebida {get;set;} public decimal CustoUnitario {get;set;} public decimal Total => Quantidade*CustoUnitario; }

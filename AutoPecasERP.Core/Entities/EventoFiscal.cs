@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class EventoFiscal{public int Id{get;set;}public int NotaFiscalId{get;set;}public NotaFiscal? NotaFiscal{get;set;}public string Tipo{get;set;}="";public DateTime Data{get;set;}=DateTime.Now;public string Protocolo{get;set;}="";public string Justificativa{get;set;}="";public string Xml{get;set;}="";public string Status{get;set;}="";}

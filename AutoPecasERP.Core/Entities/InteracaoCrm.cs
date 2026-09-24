@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class InteracaoCrm{public int Id{get;set;}public int OportunidadeCrmId{get;set;}public OportunidadeCrm? Oportunidade{get;set;}public DateTime Data{get;set;}=DateTime.Now;public string Tipo{get;set;}="FOLLOW_UP";public string Descricao{get;set;}="";public string Usuario{get;set;}="";public DateTime? ProximoContato{get;set;}}

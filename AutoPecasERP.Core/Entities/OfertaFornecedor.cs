@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Entities; public class OfertaFornecedor{public int Id{get;set;}public int ItemCotacaoCompraId{get;set;}public ItemCotacaoCompra? Item{get;set;}public int FornecedorId{get;set;}public Fornecedor? Fornecedor{get;set;}public decimal PrecoUnitario{get;set;}public int PrazoDias{get;set;}public bool Selecionada{get;set;}}

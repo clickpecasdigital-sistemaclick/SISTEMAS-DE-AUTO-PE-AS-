@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Entities; public class CotacaoCompra{public int Id{get;set;}public string Numero{get;set;}="" ;public DateTime Data{get;set;}=DateTime.Now;public string Status{get;set;}="ABERTA";public List<ItemCotacaoCompra> Itens{get;set;}=new();}

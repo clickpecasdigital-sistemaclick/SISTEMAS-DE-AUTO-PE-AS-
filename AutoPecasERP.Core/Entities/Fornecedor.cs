@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class Fornecedor { public int Id {get;set;} public string Empresa {get;set;}=""; public string? Cnpj {get;set;} public string? Contato {get;set;} public string? Telefone {get;set;} public string? Endereco {get;set;} public string? Cidade {get;set;} public string? Estado {get;set;} public DateTime? UltimaCompra {get;set;} public bool Ativo {get;set;}=true; }

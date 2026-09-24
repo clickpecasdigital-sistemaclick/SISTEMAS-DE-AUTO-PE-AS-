@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class ContaPagar { public int Id {get;set;} public int? FornecedorId {get;set;} public Fornecedor? Fornecedor {get;set;} public int? PedidoCompraId {get;set;} public string Descricao {get;set;}=""; public decimal Valor {get;set;} public DateTime Vencimento {get;set;}=DateTime.Today; public DateTime? DataPagamento {get;set;} public string Status {get;set;}="Aberta"; }

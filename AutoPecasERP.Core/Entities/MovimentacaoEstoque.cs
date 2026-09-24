@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class MovimentacaoEstoque { public int Id {get;set;} public int ProdutoId {get;set;} public Produto? Produto {get;set;} public DateTime Data {get;set;}=DateTime.Now; public string Tipo {get;set;}="ENTRADA"; public decimal Quantidade {get;set;} public decimal SaldoAnterior {get;set;} public decimal SaldoPosterior {get;set;} public string? Documento {get;set;} public string? Observacao {get;set;} public string? Usuario {get;set;} }

@@ -1,0 +1,3 @@
+using System.Globalization;using System.Windows;
+namespace AutoPecasERP.Desktop.Views;
+public partial class ValorDialog:Window{public decimal Valor{get;private set;}public string Observacao=>ObsBox.Text;public ValorDialog(string titulo){InitializeComponent();Titulo.Text=titulo;}void Ok_Click(object s,RoutedEventArgs e){var t=ValorBox.Text.Replace("R$","").Trim();if(!decimal.TryParse(t,NumberStyles.Number,CultureInfo.GetCultureInfo("pt-BR"),out var v)&&!decimal.TryParse(t,out v)||v<0){MessageBox.Show("Informe um valor válido.");return;}Valor=v;DialogResult=true;}}

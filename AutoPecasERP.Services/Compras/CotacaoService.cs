@@ -1,0 +1,7 @@
+using AutoPecasERP.Core.Entities;using AutoPecasERP.Data.Context;using Microsoft.EntityFrameworkCore;
+namespace AutoPecasERP.Services.Compras;
+public class CotacaoService{readonly ErpDbContext _db;public CotacaoService(ErpDbContext db)=>_db=db;
+public async Task<CotacaoCompra> CriarAsync(IEnumerable<(int produtoId,decimal qtd)> itens){var n=$"COT-{DateTime.Now:yyyyMMddHHmmss}";var c=new CotacaoCompra{Numero=n};foreach(var i in itens)c.Itens.Add(new ItemCotacaoCompra{ProdutoId=i.produtoId,Quantidade=i.qtd});_db.CotacoesCompra.Add(c);await _db.SaveChangesAsync();return c;}
+public async Task RegistrarOfertaAsync(int itemId,int fornecedorId,decimal preco,int prazo){if(preco<=0)throw new InvalidOperationException("Preço inválido.");_db.OfertasFornecedor.Add(new OfertaFornecedor{ItemCotacaoCompraId=itemId,FornecedorId=fornecedorId,PrecoUnitario=preco,PrazoDias=prazo});await _db.SaveChangesAsync();}
+public async Task SelecionarMenorPrecoAsync(int cotacaoId){var c=await _db.CotacoesCompra.Include(x=>x.Itens).ThenInclude(x=>x.Ofertas).SingleAsync(x=>x.Id==cotacaoId);foreach(var i in c.Itens){foreach(var o in i.Ofertas)o.Selecionada=false;var melhor=i.Ofertas.OrderBy(x=>x.PrecoUnitario).ThenBy(x=>x.PrazoDias).FirstOrDefault();if(melhor!=null)melhor.Selecionada=true;}c.Status="COTADA";await _db.SaveChangesAsync();}
+}
