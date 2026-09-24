@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Enums; public enum PerfilUsuario{Administrador,Gerente,Vendedor,Estoquista,Financeiro}
