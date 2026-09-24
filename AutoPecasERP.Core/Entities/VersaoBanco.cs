@@ -1,2 +1,1 @@
-namespace AutoPecasERP.Core.Entities;
-public class VersaoBanco{public int Id{get;set;}public int Versao{get;set;}public DateTime AplicadaEm{get;set;}=DateTime.Now;public string? Descricao{get;set;}}
+namespace AutoPecasERP.Core.Entities; public class VersaoBanco{public int Id{get;set;}public int Versao{get;set;}public string Nome{get;set;}="" ;public DateTime AplicadaEm{get;set;}=DateTime.Now;public string AplicadaPor{get;set;}="Sistema";public string? Descricao{get;set;}}
