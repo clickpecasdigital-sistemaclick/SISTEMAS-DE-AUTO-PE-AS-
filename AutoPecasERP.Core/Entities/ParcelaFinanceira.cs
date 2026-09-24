@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class ParcelaFinanceira{public int Id{get;set;}public string Tipo{get;set;}="RECEBER";public int? OrigemId{get;set;}public int Numero{get;set;}public DateTime Vencimento{get;set;}public decimal Valor{get;set;}public decimal ValorPago{get;set;}public string Status{get;set;}="ABERTO";}
