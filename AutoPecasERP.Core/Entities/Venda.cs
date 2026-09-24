@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class Venda{public int Id{get;set;}public string Numero{get;set;}="";public DateTime Data{get;set;}=DateTime.Now;public int? ClienteId{get;set;}public Cliente? Cliente{get;set;}public int UsuarioId{get;set;}public string Vendedor{get;set;}="";public string FormaPagamento{get;set;}="";public decimal Subtotal{get;set;}public decimal Desconto{get;set;}public decimal Total{get;set;}public string Status{get;set;}="FINALIZADA";public List<ItemVenda> Itens{get;set;}=new();}
