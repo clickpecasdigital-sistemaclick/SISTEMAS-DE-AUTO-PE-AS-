@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class PedidoCompra{public int Id{get;set;}public string Numero{get;set;}="";public DateTime Data{get;set;}=DateTime.Now;public int FornecedorId{get;set;}public Fornecedor? Fornecedor{get;set;}public decimal Frete{get;set;}public decimal Desconto{get;set;}public decimal Total{get;set;}public string Status{get;set;}="Aguardando";public List<ItemPedidoCompra> Itens{get;set;}=new();}
