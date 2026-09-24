@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class VeiculoCliente{public int Id{get;set;}public int ClienteId{get;set;}public Cliente? Cliente{get;set;}public string Marca{get;set;}="";public string Modelo{get;set;}="";public string? Versao{get;set;}public int? Ano{get;set;}public string? Placa{get;set;}public string? Chassi{get;set;}public string Descricao=>$"{Marca} {Modelo} {Ano}".Trim();}
