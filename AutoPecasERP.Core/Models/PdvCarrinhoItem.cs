@@ -1,0 +1,1 @@
+namespace AutoPecasERP.Core.Models; public class PdvCarrinhoItem{public int ProdutoId{get;set;}public string Codigo{get;set;}="" ;public string Descricao{get;set;}="" ;public decimal Quantidade{get;set;}public decimal Unitario{get;set;}public decimal Desconto{get;set;}public decimal Total=>Math.Max(0,Quantidade*Unitario-Desconto);}
