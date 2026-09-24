@@ -1,0 +1,2 @@
+namespace AutoPecasERP.Core.Entities;
+public class VendaPerdida{public int Id{get;set;}public DateTime Data{get;set;}=DateTime.Now;public int? ClienteId{get;set;}public Cliente? Cliente{get;set;}public int? ProdutoId{get;set;}public Produto? Produto{get;set;}public decimal Quantidade{get;set;}public decimal ValorEstimado{get;set;}public string Motivo{get;set;}="";public string? Concorrente{get;set;}public string? Vendedor{get;set;}public string? Observacoes{get;set;}}
